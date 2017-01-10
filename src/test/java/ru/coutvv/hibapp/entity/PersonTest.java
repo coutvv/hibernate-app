@@ -11,6 +11,7 @@ import org.hibernate.query.Query;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
+import static ru.coutvv.hibapp.util.EntityUtil.*;
 public class PersonTest {
 
 	SessionFactory factory;
@@ -32,25 +33,4 @@ public class PersonTest {
 		
 	}
 	
-	static Person findPerson(Session session, String name) {
-		Query<Person> query = 
-				session.createQuery("from Person p where p.name = :name", Person.class);
-		query.setParameter("name", name);
-		Person person = null;
-		try {
-			person = query.getSingleResult();
-		} catch (Exception e) {
-			System.err.println("Person "+ name +" is not here");
-		}
-		return person;
-	}
-	
-	static Person savePerson(Session session, String name) {
-		Person person = findPerson(session, name);
-		if(person == null) {
-			person = new Person(name);
-			session.save(person);
-		}
-		return person;
-	}
 }
