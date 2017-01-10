@@ -1,10 +1,25 @@
 package ru.coutvv.hibapp.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
+@Entity
 public class Ranking {
 
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private Long id;
+	@OneToOne
 	Person subject;
+	@OneToOne
 	Person observer;
+
+	@OneToOne
 	Skill skill;
+	
 	Integer ranking;
 
 	public Ranking(){
