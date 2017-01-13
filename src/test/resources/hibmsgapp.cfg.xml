@@ -19,5 +19,7 @@
         <mapping class="ru.coutvv.msgapp.entity.Email"/>
         <mapping class="ru.coutvv.msgapp.entity.Message"/>
 
+        <mapping class="ru.coutvv.msgapp.entity.SimpleObject"/>
+
     </session-factory>
 </hibernate-configuration>

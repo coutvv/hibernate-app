@@ -17,13 +17,19 @@ public class TestSessionUtil {
 	public TestSessionUtil() {
 		StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure("hibernate.testcfg.xml").build();
 		factory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
-		
+	}
+	public TestSessionUtil(String cfgFilename) {
+		StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure(cfgFilename).build();
+		factory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
 	}
 	
 	public static Session getSession() {
 		return instance.factory.openSession();
 	}
-	
+
+	public Session getSessionObj() {
+		return factory.openSession();
+	}
 	@Test
 	public void testSession() {
 		
