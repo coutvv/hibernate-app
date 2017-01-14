@@ -20,6 +20,8 @@
         <mapping class="ru.coutvv.msgapp.entity.Message"/>
 
         <mapping class="ru.coutvv.msgapp.entity.SimpleObject"/>
+        <mapping class="ru.coutvv.msgapp.entity.library.Library"/>
+        <mapping class="ru.coutvv.msgapp.entity.library.Book"/>
 
     </session-factory>
 </hibernate-configuration>
