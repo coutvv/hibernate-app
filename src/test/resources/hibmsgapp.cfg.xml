@@ -23,5 +23,7 @@
         <mapping class="ru.coutvv.msgapp.entity.library.Library"/>
         <mapping class="ru.coutvv.msgapp.entity.library.Book"/>
 
+        <mapping class="ru.coutvv.mapping.Customer"/>
+
     </session-factory>
 </hibernate-configuration>
