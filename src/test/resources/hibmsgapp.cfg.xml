@@ -25,5 +25,8 @@
 
         <mapping class="ru.coutvv.mapping.Customer"/>
 
+        <mapping class = "ru.coutvv.mapping.naturalid.SimpleNaturalIdEmployee"/>
+        <mapping class = "ru.coutvv.mapping.naturalid.Employee"/>
+
     </session-factory>
 </hibernate-configuration>
