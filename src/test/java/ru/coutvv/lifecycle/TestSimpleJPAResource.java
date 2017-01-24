@@ -1,6 +1,8 @@
 package ru.coutvv.lifecycle;
 
 import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import org.testng.annotations.Test;
 import ru.coutvv.lifecycle.entity.JPASessionUtil;
 import ru.coutvv.lifecycle.entity.Thing;
@@ -61,5 +63,27 @@ public class TestSimpleJPAResource {
         em.remove(result);
         em.getTransaction().commit();
         em.close();
+    }
+
+    @Test
+    public void testSession() {
+        Thing t = null;
+        try(Session session = JPASessionUtil.getSession("utiljpa")){
+            Transaction tx = session.beginTransaction();
+            t = new Thing();
+            t.setName("MyLittleThing");
+            session.persist(t);
+            tx.commit();
+        }
+
+        try(Session session = JPASessionUtil.getSession("utiljpa")) {
+            Transaction tx = session.beginTransaction();
+            Query<Thing> query = session.createQuery("from Thing t where t.name = :name", Thing.class);
+            query.setParameter("name", "MyLittleThing");
+            Thing result = query.getSingleResult();
+            assertNotNull(result);
+            assertEquals(result, t);
+            tx.commit();
+        }
     }
 }
