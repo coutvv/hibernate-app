@@ -4,7 +4,6 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.testng.annotations.Test;
-import ru.coutvv.lifecycle.entity.JPASessionUtil;
 import ru.coutvv.lifecycle.entity.Thing;
 
 import javax.persistence.EntityManager;

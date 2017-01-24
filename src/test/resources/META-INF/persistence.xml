@@ -4,6 +4,7 @@
              version="2.0">
     <persistence-unit name="utiljpa">
         <class>ru.coutvv.lifecycle.entity.Thing</class>
+        <class>ru.coutvv.lifecycle.entity.LifeCycleThing</class>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
             <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/my"/>

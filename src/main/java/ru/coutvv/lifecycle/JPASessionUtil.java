@@ -1,4 +1,4 @@
-package ru.coutvv.lifecycle.entity;
+package ru.coutvv.lifecycle;
 
 import org.hibernate.Session;
 
