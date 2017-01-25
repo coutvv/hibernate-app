@@ -2,9 +2,10 @@ package ru.coutvv.lifecycle;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import ru.coutvv.hibapp.util.SessionUtil;
 import ru.coutvv.hibapp.util.TestSessionUtil;
+import ru.coutvv.lifecycle.entity.validation.Coordinate;
 import ru.coutvv.lifecycle.entity.validation.ValidatedSimplePerson;
 
 import javax.validation.ConstraintViolationException;
@@ -64,4 +65,41 @@ public class TestValidation {
         }
         return person;
     }
+
+    private Coordinate persist(Coordinate person) {
+        try(Session session = TestSessionUtil.getSession()) {
+            Transaction tx = session.beginTransaction();
+            session.persist(person);
+            tx.commit();
+        }
+        return person;
+    }
+
+    @DataProvider(name = "validCoordinates")
+    private Object[][] validCoordinates(){
+        return new Object[][]{
+                {1, 1},
+                {1, 0},
+                {-1, 1},
+                {0, 1},
+                {-1, 0},
+                {0, -1},
+                {1, -1},
+                {0, 0},
+
+        };
+    }
+
+    @Test(dataProvider = "validCoordinates")
+    public void testValidCoordinate(Integer x, Integer y) {
+        Coordinate coord = Coordinate.builder().x(x).y(y).build();
+        persist(coord);
+    }
+
+    @Test(expectedExceptions =  ConstraintViolationException.class)
+    public void testInvalidCoordinate(){
+        testValidCoordinate(-1, -1);
+        fail("should have gotten a constraint violation");
+    }
+
 }

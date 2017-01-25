@@ -20,5 +20,6 @@
  		<mapping class="ru.coutvv.hibapp.entity.Skill"/>
  		<mapping class="ru.coutvv.hibapp.entity.Ranking"/>
         <mapping class="ru.coutvv.lifecycle.entity.validation.ValidatedSimplePerson"/>
+        <mapping class="ru.coutvv.lifecycle.entity.validation.Coordinate"/>
     </session-factory>
 </hibernate-configuration>
