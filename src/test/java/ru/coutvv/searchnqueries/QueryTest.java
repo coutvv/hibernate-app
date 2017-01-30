@@ -1,7 +1,7 @@
 package ru.coutvv.searchnqueries;
 
 import java.util.List;
-
+import java.util.stream.Collectors;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -72,6 +72,32 @@ public class QueryTest {
 		query.setComment("this is only a query for product");
 		List<Product> products = query.getResultList();
 		Assert.assertEquals(products.size(), 5);
+	}
+	
+	@Test
+	public void testPagination() {
+		
+		try(Session session = factory.openSession()) {
+			Transaction tx = session.beginTransaction();
+			session.createQuery("delete from Product").executeUpdate();
+			session.createQuery("delete from Supplier").executeUpdate();
+			
+			for(int i = 0; i < 30; i++ ) {
+				Supplier sup = new Supplier();
+				sup.setName(String.format("supplier %02d", i));
+				session.save(sup);
+			}
+			tx.commit();
+		}
+		
+		try(Session session = factory.openSession()) {
+			Query<String> query = session.createQuery("select s.name from Supplier s order by s.name", String.class);
+			query.setFirstResult(5);
+			query.setMaxResults(5);
+			List<String> suppliers = query.getResultList();
+			String list = suppliers.stream().collect(Collectors.joining(","));
+			Assert.assertEquals(list, "supplier 05,supplier 06,supplier 07,supplier 08,supplier 09");
+		}
 	}
 	
 	private Product createProd(Supplier sup, String name, String descr, double price) {
