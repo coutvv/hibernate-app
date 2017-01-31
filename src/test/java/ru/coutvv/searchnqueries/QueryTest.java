@@ -9,7 +9,9 @@ import org.hibernate.Transaction;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
+import org.hibernate.type.DoubleType;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -135,6 +137,24 @@ public class QueryTest {
 		}
 	}
 	
+	@Test
+	public void testNativeSQL() {
+		String sql = "select avg(product.price) as avgPrice from Product product";
+		NativeQuery<?> query = session.createNativeQuery(sql);
+		query.addScalar("avgPrice", DoubleType.INSTANCE);
+		List results = query.getResultList();
+		for(Object obj : results) {
+			System.out.println(obj);
+		}
+		
+		sql = "select {supplier.*} from Supplier supplier";
+		query = session.createNativeQuery(sql);
+		query.addEntity("supplier", Supplier.class);
+		List<Supplier> sups = (List<Supplier>) query.getResultList();
+		for(Supplier s : sups) {
+			System.out.println(s.getName());
+		}
+	}
 	
 	private Product createProd(Supplier sup, String name, String descr, double price) {
 		Product result = new Product(); 
