@@ -100,6 +100,15 @@ public class QueryTest {
 		}
 	}
 	
+	@Test
+	public void testUniqueQuery() {
+		String hql = "from Product where price > 25.0";
+		Query<Product> query = session.createQuery(hql, Product.class);
+		query.setMaxResults(1);
+		Product prod = query.getSingleResult(); //instead of uniqueResult;
+		Assert.assertNotNull(prod);
+	}
+	
 	private Product createProd(Supplier sup, String name, String descr, double price) {
 		Product result = new Product(); 
 		result.setName(name);
