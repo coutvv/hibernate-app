@@ -109,6 +109,33 @@ public class QueryTest {
 		Assert.assertNotNull(prod);
 	}
 	
+	@Test
+	public void testBulkUpdatesNDeletes() {
+		String hql = "update Supplier set name = :newName where name = :name";
+		Query query = session.createQuery(hql);
+		query.setParameter("name", "Next Sup");
+		query.setParameter("newName", "Apple Inc Yopta");
+		int rowCount = query.executeUpdate();
+		System.out.println("rows affected: " + rowCount);
+		
+		Query<Supplier> q = session.createQuery("from Supplier", Supplier.class);
+		List<Supplier> results = q.getResultList();
+		for(Supplier sup : results) {
+			System.out.println(sup.getName());
+		}
+		//delete bulk
+		hql = "delete from Product where name = :name";
+		query = session.createQuery(hql);
+		query.setParameter("name", "Trackball Mouse");
+		rowCount = query.executeUpdate();
+		System.out.println("Rows deleted: " + rowCount);
+		List<Product> prods = session.createQuery("from Product", Product.class).getResultList();
+		for(Product prod : prods) {
+			System.out.println(prod.getName());
+		}
+	}
+	
+	
 	private Product createProd(Supplier sup, String name, String descr, double price) {
 		Product result = new Product(); 
 		result.setName(name);
